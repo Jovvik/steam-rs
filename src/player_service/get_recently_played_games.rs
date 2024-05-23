@@ -55,7 +55,7 @@ impl Steam {
             optional_argument!(count)
         );
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let json = do_http!(url, Value, ErrorHandle, PlayerServiceError::GetOwnedGames);
+        let json = do_http!(self, url, Value, ErrorHandle, PlayerServiceError::GetOwnedGames);
         let recently_played_games: Response = ErrorHandle!(
             serde_json::from_value(json.to_owned()),
             PlayerServiceError::GetRecentlyPlayedGames

@@ -86,7 +86,7 @@ impl Steam {
             optional_argument!(relationship)
         );
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let json = do_http!(url, Value, ErrorHandle, SteamUserError::GetFriendList);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamUserError::GetFriendList);
         let wrapper: Wrapper =
             ErrorHandle!(from_value(json.to_owned()), SteamUserError::GetFriendList);
 

@@ -70,7 +70,7 @@ impl Steam {
             include_total
         );
         let url = format!("{END_POINT}{args}");
-        let data = do_http!(url, Value, ErrorHandle, EconServiceError::GetTradeHistory);
+        let data = do_http!(self, url, Value, ErrorHandle, EconServiceError::GetTradeHistory);
         let trade_history: Wrapper = ErrorHandle!(
             serde_json::from_value(data.to_owned()),
             EconServiceError::GetTradeHistory

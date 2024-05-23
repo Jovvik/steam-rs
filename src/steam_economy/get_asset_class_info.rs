@@ -139,7 +139,7 @@ impl Steam {
             + &optional_argument!(language, instanceid0);
         let url = format!("{}/{}/{}/v{}/?{}", BASE, INTERFACE, ENDPOINT, VERSION, args);
         
-        let response = do_http!(
+        let response = do_http!(self, 
             url,
             UncleanAssetClassInfo,
             ErrorHandle,

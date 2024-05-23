@@ -36,9 +36,9 @@ struct Wrapper {
 
 impl Steam {
     /// Gets the complete list of public apps.
-    pub async fn get_app_list() -> Result<AppList, SteamAppsError> {
+    pub async fn get_app_list(&self) -> Result<AppList, SteamAppsError> {
         let url = format!("{}/{}/{}/v{}/", BASE, INTERFACE, ENDPOINT, VERSION);
-        let wrapper = do_http!(url, Wrapper, ErrorHandle, SteamAppsError::GetAppList);
+        let wrapper = do_http!(self, url, Wrapper, ErrorHandle, SteamAppsError::GetAppList);
         Ok(wrapper.applist)
     }
 }

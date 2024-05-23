@@ -74,12 +74,12 @@ impl Steam {
     /// # Arguments
     ///
     /// * `address` - IP or IP:queryport to list.
-    pub async fn get_servers_at_address(address: &str) -> Result<ServersResponse, SteamAppsError> {
+    pub async fn get_servers_at_address(&self, address: &str) -> Result<ServersResponse, SteamAppsError> {
         let url = format!(
             "{}/{}/{}/v{}/?addr={}",
             BASE, INTERFACE, ENDPOINT, VERSION, address
         );
-        let wrapper = do_http!(
+        let wrapper = do_http!(self, 
             url,
             Wrapper,
             ErrorHandle,

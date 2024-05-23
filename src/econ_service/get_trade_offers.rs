@@ -66,7 +66,7 @@ impl Steam {
             time_historical_cutoff
         );
         let url = format!("{END_POINT}{args}");
-        let data: Value = do_http!(url, Value, ErrorHandle, EconServiceError::GetTradeOffers);
+        let data: Value = do_http!(self, url, Value, ErrorHandle, EconServiceError::GetTradeOffers);
         let trade_offer: Wrapper = ErrorHandle!(
             serde_json::from_value(data.to_owned()),
             EconServiceError::GetTradeOffers

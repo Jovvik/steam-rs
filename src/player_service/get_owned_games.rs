@@ -75,7 +75,7 @@ impl Steam {
             include_extended_appinfo
         ) + &optional_argument!(skip_unvetted_apps);
         let url = format!("{BASE}/{INTERFACE}/{ENDPOINT}/v{VERSION}/?{args}");
-        let wrapper = do_http!(url, Wrapper, ErrorHandle, PlayerServiceError::GetOwnedGames);
+        let wrapper = do_http!(self, url, Wrapper, ErrorHandle, PlayerServiceError::GetOwnedGames);
         Ok(wrapper.response)
     }
 }

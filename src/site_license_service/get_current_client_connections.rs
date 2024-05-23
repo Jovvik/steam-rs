@@ -78,6 +78,7 @@ impl Steam {
     /// * `publisher_key` - Steamworks Web API publisher authentication key
     /// * `site_id` - Site ID to see; zero for all sites
     pub async fn get_current_client_connections(
+        &self,
         publisher_key: &str,
         site_id: u64,
     ) -> Result<CurrentClientConnections, SiteLicenseServiceError> {
@@ -85,7 +86,7 @@ impl Steam {
             "{}/{}/{}/v{}/?key={}&siteid={}",
             BASE, INTERFACE, ENDPOINT, VERSION, publisher_key, site_id
         );
-        let json = do_http!(
+        let json = do_http!(self, 
             url,
             Value,
             ErrorHandle,

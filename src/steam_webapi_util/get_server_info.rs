@@ -27,9 +27,9 @@ pub struct ServerInfo {
 
 impl Steam {
     /// Returns WebAPI server time & checks server status.
-    pub async fn get_server_info() -> Result<ServerInfo, SteamWebAPIUtilError> {
+    pub async fn get_server_info(&self) -> Result<ServerInfo, SteamWebAPIUtilError> {
         let url = format!("{}/{}/{}/v{}/", BASE, INTERFACE, ENDPOINT, VERSION);
-        let json = do_http!(url, Value, ErrorHandle, SteamWebAPIUtilError::GetServerInfo);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamWebAPIUtilError::GetServerInfo);
         let server_info: ServerInfo = ErrorHandle!(
             serde_json::from_value(json.to_owned()),
             SteamWebAPIUtilError::GetServerInfo

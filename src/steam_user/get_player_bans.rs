@@ -71,7 +71,7 @@ impl Steam {
         let query = format!("?key={}&steamids={}", &self.api_key, steam_ids);
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
 
-        let json = do_http!(url, Value, ErrorHandle, SteamUserError::GetPlayerBans);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamUserError::GetPlayerBans);
         let wrapper: Wrapper =
             ErrorHandle!(from_value(json.to_owned()), SteamUserError::GetPlayerBans);
 

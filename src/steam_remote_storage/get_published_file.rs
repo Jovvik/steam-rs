@@ -30,6 +30,7 @@ struct Wrapper {
 
 impl Steam {
     pub async fn get_published_file(
+        &self,
         published_fileids: &[u64],
     ) -> Result<Response, SteamRemoteStorageError> {
         let url = format!("{BASE}/{INTERFACE}/{ENDPOINT}/v{VERSION}");
@@ -46,7 +47,7 @@ impl Steam {
             );
         }
 
-        let wrapper = do_http!(
+        let wrapper = do_http!(self, 
             url,
             Wrapper,
             ErrorHandle,

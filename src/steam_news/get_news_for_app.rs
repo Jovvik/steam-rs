@@ -51,6 +51,7 @@ impl Steam {
     /// * `count` - Number of posts to retrieve (default 20).
     /// * `feeds` - Comma-seperated list of feed names to return news for.
     pub async fn get_news_for_app(
+        &self,
         appid: u32,
         max_length: Option<u32>,
         end_date: Option<u32>,
@@ -73,7 +74,7 @@ impl Steam {
         let query = format!("?appid={}{}", appid, optional_arguments.concat());
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
 
-        let response = do_http!(url, Response, ErrorHandle, SteamNewsError::GetNews);
+        let response = do_http!(self, url, Response, ErrorHandle, SteamNewsError::GetNews);
 
         Ok(response.appnews)
     }

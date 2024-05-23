@@ -454,7 +454,7 @@ impl Steam {
             query.concat()
         );
 
-        let response = do_http!(
+        let response = do_http!(self, 
             url,
             Response,
             ErrorHandle,

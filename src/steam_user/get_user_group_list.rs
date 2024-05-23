@@ -49,7 +49,7 @@ impl Steam {
         let query = format!("?key={}&steamid={}", &self.api_key, steam_id);
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
         println!("{}", url);
-        let json = do_http!(url, Value, ErrorHandle, SteamUserError::GetUserGroupList);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamUserError::GetUserGroupList);
         let wrapper: Wrapper = ErrorHandle!(
             from_value(json.to_owned()),
             SteamUserError::GetUserGroupList

@@ -56,7 +56,7 @@ impl Steam {
         let steamid = steamid.into_u64();
         let args = gen_args!(key, appid, steamid) + &optional_argument!(language, "l");
         let url = format!("{BASE}/{INTERFACE}/{ENDPOINT}/v{VERSION}/?{args}");
-        let wrapper = do_http!(
+        let wrapper = do_http!(self, 
             url,
             Wrapper,
             ErrorHandle,

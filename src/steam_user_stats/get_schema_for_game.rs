@@ -70,7 +70,7 @@ impl Steam {
         let key = &self.api_key;
         let query = format!("?key={}{}{}", key, gen_args!(appid), optional_argument!(language, "l"));
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let response = do_http!(
+        let response = do_http!(self, 
             url,
             Response,
             ErrorHandle,

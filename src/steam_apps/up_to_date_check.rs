@@ -44,6 +44,7 @@ impl Steam {
     /// * `appid` - AppID of game.
     /// * `version` - The installed version of the game.
     pub async fn up_to_date_check(
+        &self,
         appid: u32,
         version: u32,
     ) -> Result<UpToDateResponse, SteamAppsError> {
@@ -51,7 +52,7 @@ impl Steam {
             "{}/{}/{}/v{}/?appid={}&version={}",
             BASE, INTERFACE, ENDPOINT, VERSION, appid, version
         );
-        let wrapper = do_http!(url, Wrapper, ErrorHandle, SteamAppsError::GetAppList);
+        let wrapper = do_http!(self, url, Wrapper, ErrorHandle, SteamAppsError::GetAppList);
         Ok(wrapper.response)
     }
 }

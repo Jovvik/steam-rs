@@ -39,7 +39,7 @@ impl Steam {
         let key = &self.api_key.clone();
         let args = gen_args!(key, time_last_visit);
         let url = format!("{END_POINT}{args}");
-        let data = do_http!(
+        let data = do_http!(self, 
             url,
             Value,
             ErrorHandle,

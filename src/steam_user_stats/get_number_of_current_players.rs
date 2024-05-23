@@ -38,7 +38,7 @@ impl Steam {
         let args = gen_args!(key, appid);
         let url = format!("{BASE}/{INTERFACE}/{ENDPOINT}/v{VERSION}/?{args}");
 
-        let wrapper = do_http!(
+        let wrapper = do_http!(self, 
             url,
             Wrapper,
             ErrorHandle,

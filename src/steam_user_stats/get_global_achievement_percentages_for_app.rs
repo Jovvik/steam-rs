@@ -41,7 +41,7 @@ impl Steam {
     ) -> Result<AchievementPercentages, SteamUserStatsError> {
         let query = format!("?gameid={}", game_id);
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let response = do_http!(
+        let response = do_http!(self, 
             url,
             Response,
             ErrorHandle,

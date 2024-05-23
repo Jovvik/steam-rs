@@ -53,7 +53,7 @@ impl Steam {
             optional_argument!(badge_id, "badgeid")
         );
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let json = do_http!(
+        let json = do_http!(self, 
             url,
             Value,
             ErrorHandle,

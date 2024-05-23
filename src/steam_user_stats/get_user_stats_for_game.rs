@@ -50,7 +50,7 @@ impl Steam {
         let steamid = steamid.into_u64();
         let args = gen_args!(key, appid, steamid);
         let url = format!("{END_POINT}?{args}");
-        Ok(do_http!(
+        Ok(do_http!(self, 
             url,
             UserGameStats,
             ErrorHandle,

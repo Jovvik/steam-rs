@@ -47,7 +47,7 @@ impl Steam {
     pub async fn get_badges(&self, steam_id: SteamId) -> Result<BadgeResponse, PlayerServiceError> {
         let query = format!("?key={}&steamid={}", &self.api_key, steam_id);
         let url = format!("{}/{}/{}/v{}/{}", BASE, INTERFACE, ENDPOINT, VERSION, query);
-        let json = do_http!(url, Value, ErrorHandle, PlayerServiceError::GetOwnedGames);
+        let json = do_http!(self, url, Value, ErrorHandle, PlayerServiceError::GetOwnedGames);
         let wrapper: Wrapper = ErrorHandle!(
             serde_json::from_value(json.to_owned()),
             PlayerServiceError::GetBadges

@@ -68,6 +68,7 @@ impl Steam {
     /// * `end_time` - Report activity starting before this time. RFC 3339 UTC format.
     /// * `site_id` - Site ID to see; zero for all sites
     pub async fn get_total_playtime(
+        &self,
         publisher_key: &str,
         start_time: &str,
         end_time: &str,
@@ -77,7 +78,7 @@ impl Steam {
             "{}/{}/{}/v{}/?key={}&start_time={}&end_time={}&siteid={}",
             BASE, INTERFACE, ENDPOINT, VERSION, publisher_key, start_time, end_time, site_id
         );
-        let json = do_http!(
+        let json = do_http!(self, 
             url,
             Value,
             ErrorHandle,

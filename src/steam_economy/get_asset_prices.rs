@@ -83,7 +83,7 @@ impl Steam {
         let args = gen_args!(key, appid) + &optional_argument!(language, currency);
         let url = format!("{}/{}/{}/v{}/?{}", BASE, INTERFACE, ENDPOINT, VERSION, args);
     
-        let json = do_http!(url, Value, ErrorHandle, SteamEconomyError::GetAssetPrices);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamEconomyError::GetAssetPrices);
         let response: Wrapper =
             ErrorHandle!(from_value(json.to_owned()), SteamEconomyError::GetAssetPrices);
         

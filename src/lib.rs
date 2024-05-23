@@ -6,6 +6,8 @@
 //! ### Warning!
 //! This crate is currently a work in progress, so please expect breaking changes and instability. Please be careful when using this! **This is not production ready!**
 
+use reqwest::Client;
+
 pub mod econ_service;
 pub mod player_service;
 pub mod published_file_service;
@@ -27,12 +29,14 @@ const BASE: &str = "https://api.steampowered.com";
 
 pub struct Steam {
     api_key: String,
+    client: Client,
 }
 
 impl Steam {
     pub fn new(api_key: &str) -> Steam {
         Steam {
             api_key: api_key.to_string(),
+            client: Client::new(),
         }
     }
 }

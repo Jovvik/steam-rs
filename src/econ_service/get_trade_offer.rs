@@ -61,7 +61,7 @@ impl Steam {
         let key = &self.api_key.clone();
         let args = gen_args!(key, tradeofferid, language);
         let url = format!("{END_POINT}{args}");
-        let data = do_http!(url, Value, ErrorHandle, EconServiceError::GetTradeOffer);
+        let data = do_http!(self, url, Value, ErrorHandle, EconServiceError::GetTradeOffer);
         let trade_offer: Wrapper = ErrorHandle!(
             serde_json::from_value(data.to_owned()),
             EconServiceError::GetTradeOffer

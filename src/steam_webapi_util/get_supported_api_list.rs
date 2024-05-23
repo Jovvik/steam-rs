@@ -76,7 +76,7 @@ impl Steam {
             "{}/{}/{}/v{}/?key={}",
             BASE, INTERFACE, ENDPOINT, VERSION, &self.api_key
         );
-        let json = do_http!(url, Value, ErrorHandle, SteamWebAPIUtilError::GetServerInfo);
+        let json = do_http!(self, url, Value, ErrorHandle, SteamWebAPIUtilError::GetServerInfo);
         let wrapper: Wrapper = ErrorHandle!(
             serde_json::from_value(json.to_owned()),
             SteamWebAPIUtilError::GetServerInfo

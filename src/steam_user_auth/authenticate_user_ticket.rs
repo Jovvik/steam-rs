@@ -48,7 +48,7 @@ impl Steam {
         let url = format!(
             "{BASE}/{INTERFACE}/{ENDPOINT}/v{VERSION}/?key={key}&appid={app_id}&ticket={ticket}"
         );
-        let wrapper = do_http!(
+        let wrapper = do_http!(self, 
             url,
             Wrapper,
             ErrorHandle,
