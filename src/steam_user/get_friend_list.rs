@@ -90,6 +90,9 @@ impl Steam {
         let wrapper: Wrapper =
             ErrorHandle!(from_value(json.to_owned()), SteamUserError::GetFriendList);
 
-        Ok(wrapper.friends_list.unwrap().friends)
+        Ok(wrapper
+            .friends_list
+            .map(|list| list.friends)
+            .unwrap_or_default())
     }
 }
