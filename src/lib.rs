@@ -6,9 +6,14 @@
 //! ### Warning!
 //! This crate is currently a work in progress, so please expect breaking changes and instability. Please be careful when using this! **This is not production ready!**
 
-use reqwest::Client;
-use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
-use reqwest_retry::RetryTransientMiddleware;
+use std::num::NonZeroU16;
+
+use reqwest::{Client, StatusCode};
+use reqwest_middleware::{ClientBuilder, ClientWithMiddleware, Error};
+use reqwest_retry::{
+    default_on_request_failure, policies::ExponentialBackoff, RetryTransientMiddleware, Retryable,
+    RetryableStrategy,
+};
 
 pub mod econ_service;
 pub mod player_service;
@@ -31,6 +36,38 @@ const BASE: &str = "https://api.steampowered.com";
 
 pub use reqwest_retry::policies as retry_policies;
 
+struct SteamRetryableStrategy;
+
+impl RetryableStrategy for SteamRetryableStrategy {
+    fn handle(&self, res: &Result<reqwest::Response, Error>) -> Option<Retryable> {
+        match res {
+            Ok(success) => {
+                let enhance_your_calm: StatusCode = StatusCode::from_u16(420).unwrap();
+                let status = success.status();
+                if status.is_server_error() {
+                    Some(Retryable::Transient)
+                } else if status.is_client_error()
+                    && status != StatusCode::REQUEST_TIMEOUT
+                    && status != StatusCode::TOO_MANY_REQUESTS
+                    && status != enhance_your_calm
+                {
+                    Some(Retryable::Fatal)
+                } else if status.is_success() {
+                    None
+                } else if status == StatusCode::REQUEST_TIMEOUT
+                    || status == StatusCode::TOO_MANY_REQUESTS
+                    || status == enhance_your_calm
+                {
+                    Some(Retryable::Transient)
+                } else {
+                    Some(Retryable::Fatal)
+                }
+            }
+            Err(error) => default_on_request_failure(error),
+        }
+    }
+}
+
 pub struct Steam {
     api_key: String,
     client: ClientWithMiddleware,
@@ -38,7 +75,8 @@ pub struct Steam {
 
 impl Steam {
     pub fn new(api_key: &str, policy: retry_policies::ExponentialBackoff) -> Steam {
-        let middleware = RetryTransientMiddleware::new_with_policy(policy);
+        let middleware =
+            RetryTransientMiddleware::new_with_policy_and_strategy(policy, SteamRetryableStrategy);
         let client = ClientBuilder::new(Client::new()).with(middleware).build();
         Steam {
             api_key: api_key.to_string(),
