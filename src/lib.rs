@@ -74,10 +74,10 @@ pub struct Steam {
 }
 
 impl Steam {
-    pub fn new(api_key: &str, policy: retry_policies::ExponentialBackoff) -> Steam {
+    pub fn new(api_key: &str, client: Client, policy: ExponentialBackoff) -> Steam {
         let middleware =
             RetryTransientMiddleware::new_with_policy_and_strategy(policy, SteamRetryableStrategy);
-        let client = ClientBuilder::new(Client::new()).with(middleware).build();
+        let client = ClientBuilder::new(client).with(middleware).build();
         Steam {
             api_key: api_key.to_string(),
             client,
