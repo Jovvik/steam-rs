@@ -69,8 +69,8 @@ impl RetryableStrategy for SteamRetryableStrategy {
 }
 
 pub struct Steam {
-    api_key: String,
-    client: ClientWithMiddleware,
+    pub api_key: String,
+    pub client: ClientWithMiddleware,
 }
 
 impl Steam {
